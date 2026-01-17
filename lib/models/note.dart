@@ -13,6 +13,7 @@ class Note {
     required this.updatedAt,
   });
 
+  //------------------------------------------------------------------------------
   Note copyWith({
     int? id,
     String? title,
@@ -29,6 +30,7 @@ class Note {
     );
   }
 
+  //------------------------------------------------------------------------------
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -39,6 +41,7 @@ class Note {
     };
   }
 
+  //------------------------------------------------------------------------------
   factory Note.fromMap(Map<String, dynamic> map) {
     return Note(
       id: map['id'] as int?,

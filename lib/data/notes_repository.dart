@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class NotesRepository {
   Database? _database;
 
+  //------------------------------------------------------------------------------
   Future<void> init() async {
     final databasesPath = await getDatabasesPath();
     final path = p.join(databasesPath, 'local_notes.db');
@@ -28,6 +29,7 @@ class NotesRepository {
     );
   }
 
+  //------------------------------------------------------------------------------
   Database get database {
     if (_database == null) {
       throw Exception('Database not initialized. Call init() first.');
@@ -35,12 +37,14 @@ class NotesRepository {
     return _database!;
   }
 
+  //------------------------------------------------------------------------------
   Future<List<Note>> getAllNotes() async {
     final db = database;
     final maps = await db.query('notes', orderBy: 'updatedAt DESC');
     return maps.map((map) => Note.fromMap(map)).toList();
   }
 
+  //------------------------------------------------------------------------------
   Future<Note> addNote({required String title, required String content}) async {
     final db = database;
     final now = DateTime.now();
@@ -59,6 +63,7 @@ class NotesRepository {
     );
   }
 
+  //------------------------------------------------------------------------------
   Future<void> updateNote(Note note) async {
     final db = database;
     await db.update(
@@ -73,6 +78,7 @@ class NotesRepository {
     );
   }
 
+  //------------------------------------------------------------------------------
   Future<void> deleteNote(int id) async {
     final db = database;
     await db.delete('notes', where: 'id = ?', whereArgs: [id]);
