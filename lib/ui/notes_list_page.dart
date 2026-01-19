@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:local_notes_app/controllers/notes_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:local_notes_app/ui/edit_note_page.dart';
 
 class NotesListPage extends StatelessWidget {
   const NotesListPage({super.key});
@@ -21,14 +22,17 @@ class NotesListPage extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Tapped on note: ${note.title}')),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => EditNotePage(existingNote: note),
+              ),
             );
           },
           onLongPress: () async {
             final confirm = await showDialog<bool>(
               context: context,
-              builder: (context) => AlertDialog(
+              builder: (_) => AlertDialog(
                 title: const Text('Delete Note'),
                 content: const Text(
                   'Are you sure you want to delete this note? This action cannot be undone.',
@@ -58,6 +62,13 @@ class NotesListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var notesController = context.watch<NotesController>();
 
+    if (notesController.isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Local Notes')),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Local Notes')),
       body: notesController.notes.isEmpty
@@ -70,9 +81,9 @@ class NotesListPage extends StatelessWidget {
           : _buildNotesList(context, notesController),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<NotesController>().addNote(
-            title: 'New Note',
-            content: 'This is a new note.',
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const EditNotePage()),
           );
         },
         tooltip: 'Add Note',
