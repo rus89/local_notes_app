@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_notes_app/ui/notes_list_page.dart';
 import 'package:provider/provider.dart';
 import 'package:local_notes_app/controllers/notes_controller.dart';
 import 'package:local_notes_app/data/notes_repository.dart';
@@ -61,9 +62,6 @@ class _NotesRootState extends State<NotesRoot> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Notes')),
-      body: const Center(child: Text('Welcome to Local Notes App!')),
-    );
+    return const NotesListPage();
   }
 }
