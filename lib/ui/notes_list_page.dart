@@ -70,8 +70,9 @@ class NotesListPage extends StatelessWidget {
           : _buildNotesList(context, notesController),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Add Note button pressed')),
+          context.read<NotesController>().addNote(
+            title: 'New Note',
+            content: 'This is a new note.',
           );
         },
         tooltip: 'Add Note',
